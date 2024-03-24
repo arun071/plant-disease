@@ -18,8 +18,8 @@ class Classifier {
 
   loadModel() async {
     await Tflite.loadModel(
-      model: "assets/model/model_unquant.tflite",
-      labels: "assets/model/labels.txt",
+      model: "assets/model/plant_disease_model.tflite",
+      labels: "assets/model/plant_labels.txt",
       numThreads: 1,
     );
   }
