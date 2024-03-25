@@ -45,9 +45,18 @@ class _HomeState extends State<Home> {
     late Disease _disease;
 
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      appBar: AppBar(
+        backgroundColor:kMain,
+        title: Text(
+          'Plant Disease Detector',
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: SpeedDial(
-        icon: Icons.camera_alt,
+        icon: Icons.camera_alt,iconTheme: IconThemeData(
+          color: Colors.white,
+        ),backgroundColor: Colors.black,
+        
         spacing: 10,
         children: [
           SpeedDialChild(
@@ -80,7 +89,6 @@ class _HomeState extends State<Home> {
                 );
               } else {
                 // Display unsure message
-
               }
             },
           ),
@@ -116,7 +124,6 @@ class _HomeState extends State<Home> {
                 );
               } else {
                 // Display unsure message
-
               }
             },
           ),
@@ -129,8 +136,8 @@ class _HomeState extends State<Home> {
         ),
         child: CustomScrollView(
           slivers: [
-            GreetingSection(size.height * 0.2),
             TitleSection('Instructions', size.height * 0.066),
+            
             InstructionsSection(size),
             TitleSection('Your History', size.height * 0.066),
             HistorySection(size, context, _diseaseService)
