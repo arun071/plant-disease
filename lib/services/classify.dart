@@ -18,8 +18,8 @@ class Classifier {
 
   loadModel() async {
     await Tflite.loadModel(
-      model: "assets/model/plant_disease_model.tflite",
-      labels: "assets/model/plant_labels.txt",
+      model: "assets/model/model.tflite",
+      labels: "assets/model/labels.txt",
       numThreads: 1,
     );
   }
@@ -27,7 +27,7 @@ class Classifier {
   Future<List?> classifyImage(File image) async {
     var output = await Tflite.runModelOnImage(
         path: image.path,
-        imageMean: 0.0,
+        imageMean: 0.0, 
         imageStd: 255.0,
         numResults: 2,
         threshold: 0.2,
