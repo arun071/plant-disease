@@ -46,88 +46,46 @@ class _HomeState extends State<Home> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:kMain,
+        backgroundColor: kMain,
         title: Text(
           'Plant Disease Detector',
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: SpeedDial(
-        icon: Icons.camera_alt,iconTheme: IconThemeData(
-          color: Colors.white,
-        ),backgroundColor: Colors.black,
+      floatingActionButton: Container(
+        height: 50,
+        width: 50,
+        decoration: BoxDecoration(
+          color: Colors.black,
+          borderRadius: BorderRadius.circular(25)
+        ),
+        child: IconButton(
+          icon: Icon(Icons.file_upload_outlined,color: Colors.white,),
+          onPressed: () async {
+            late double _confidence;
+            await classifier.getDisease(ImageSource.gallery).then((value) {
+              _disease = Disease(
+                  name: value![0]["label"], imagePath: classifier.imageFile.path);
         
-        spacing: 10,
-        children: [
-          SpeedDialChild(
-            child: const FaIcon(
-              FontAwesomeIcons.file,
-              color: kWhite,
-            ),
-            label: "Choose image",
-            backgroundColor: kMain,
-            onTap: () async {
-              late double _confidence;
-              await classifier.getDisease(ImageSource.gallery).then((value) {
-                _disease = Disease(
-                    name: value![0]["label"],
-                    imagePath: classifier.imageFile.path);
-
-                _confidence = value[0]['confidence'];
-              });
-              // Check confidence
-              if (_confidence > 0.8) {
-                // Set disease for Disease Service
-                _diseaseService.setDiseaseValue(_disease);
-
-                // Save disease
-                _hiveService.addDisease(_disease);
-
-                Navigator.restorablePushNamed(
-                  context,
-                  Suggestions.routeName,
-                );
-              } else {
-                // Display unsure message
-              }
-            },
-          ),
-          SpeedDialChild(
-            child: const FaIcon(
-              FontAwesomeIcons.camera,
-              color: kWhite,
-            ),
-            label: "Take photo",
-            backgroundColor: kMain,
-            onTap: () async {
-              late double _confidence;
-
-              await classifier.getDisease(ImageSource.camera).then((value) {
-                _disease = Disease(
-                    name: value![0]["label"],
-                    imagePath: classifier.imageFile.path);
-
-                _confidence = value[0]['confidence'];
-              });
-
-              // Check confidence
-              if (_confidence > 0.8) {
-                // Set disease for Disease Service
-                _diseaseService.setDiseaseValue(_disease);
-
-                // Save disease
-                _hiveService.addDisease(_disease);
-
-                Navigator.restorablePushNamed(
-                  context,
-                  Suggestions.routeName,
-                );
-              } else {
-                // Display unsure message
-              }
-            },
-          ),
-        ],
+              _confidence = value[0]['confidence'];
+            });
+            // Check confidence
+            if (_confidence > 0.8) {
+              // Set disease for Disease Service
+              _diseaseService.setDiseaseValue(_disease);
+        
+              // Save disease
+              _hiveService.addDisease(_disease);
+        
+              Navigator.restorablePushNamed(
+                context,
+                Suggestions.routeName,
+              );
+            } else {
+              // Display unsure message
+            }
+          },
+        ),
       ),
       body: Container(
         decoration: const BoxDecoration(
@@ -137,7 +95,6 @@ class _HomeState extends State<Home> {
         child: CustomScrollView(
           slivers: [
             TitleSection('Instructions', size.height * 0.066),
-            
             InstructionsSection(size),
             TitleSection('Your History', size.height * 0.066),
             HistorySection(size, context, _diseaseService)

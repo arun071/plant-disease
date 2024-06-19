@@ -38,7 +38,7 @@ class InstructionsSection extends SliverFixedExtentList {
                                   ),
                                 ),
                                 title: Text(
-                                  '\nTake/Select a photo of an affected plant by tapping the camera button below',
+                                  '\nSelect a photo of an affected plant by tapping the camera button below',
                                   style: TextStyle(color: kWhite),
                                 )),
                             ListTile(
